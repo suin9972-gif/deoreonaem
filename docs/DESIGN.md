@@ -9,7 +9,8 @@ colors:
   kakao-login: '#fee500'
   kakao-login-symbol: '#000000'
   kakao-login-label: '#000000'
-  accent: '#fae100'
+  accent: '#ffc21a'
+  accent-soft: '#fff3c4'
   ink-strong: '#111111'
   canvas: '#ffffff'
   foreground: '#333333'
@@ -131,7 +132,7 @@ components:
     use: toggle that opens the folded list (잠깐 접어둘게요) of remaining and finished items
   primary-action:
     type: button
-    backgroundColor: '#fae100'
+    backgroundColor: '#ffc21a'
     textColor: '#000000'
     border: '2px solid #000000'
     rounded: 16px
@@ -184,7 +185,7 @@ Conversion note
 - Visual tokens (color values, type scale, spacing, radius, flat elevation, 0s transitions) are kept byte-for-byte from the reference.
 - Meta, naming, rationale and voice were rewritten from docs/VOICE.md (Deoreonaem / 덜어냄) by design-brandfit on 2026-10-16.
 - Font family substituted: KakaoBig / KakaoSmall → Pretendard (Kakao corporate fonts carry no general redistribution right; Pretendard has full Hangul coverage, OFL). Sizes, weights, line heights and tracking unchanged.
-- Color decision: values unchanged, including Kakao marketing yellow #fae100 as the accent. Its vividness is managed by scarcity (one primary action per screen) to keep the calm voice.
+- Color decision: values unchanged, including Kakao marketing yellow #ffc21a as the accent. Its vividness is managed by scarcity (one primary action per screen) to keep the calm voice.
 - Voice samples are planning copy for a new service and have not been tested with users.
 - Brand Narrative and Personas were removed (covered by VOICE.md and PRODUCT.md).
 -->
@@ -202,7 +203,7 @@ The rationale comes from the brand voice: calm (차분한), decisive on the user
 **Key Characteristics:**
 - One family: Pretendard for display and text (substituted for Kakao's corporate fonts)
 - Flat surfaces: no shadow tokens, instant state changes (`transition: all 0s`)
-- One accent: `#fae100`, at most one primary action per screen
+- One accent: `#ffc21a`, at most one primary action per screen
 - Kakao Login yellow `#fee500` stays reserved for a Kakao sign-in button only (unused unless that integration is added)
 
 ### Primary tasks
@@ -218,14 +219,15 @@ Implementation principles. Numbers stay as measured in the reference; the reason
 
 1. **Less on screen, always.** Show 오늘 세 가지 and fold the rest away. A new element must lift load, not add it.
 2. **One family, many sizes.** Pretendard carries every role; hierarchy comes from the measured scale, not from mixing families.
-3. **The accent is scarce.** `#fae100` marks the single next action. Kakao Login `#fee500` stays a separate, regulated token used only for a Kakao sign-in button.
+3. **The accent is scarce.** `#ffc21a` marks the single next action. Kakao Login `#fee500` stays a separate, regulated token used only for a Kakao sign-in button.
 4. **Calm states, explicit words.** There are no alarm colors; errors and missed items are told in calm, explicit copy ("캘린더를 불러오지 못했어요. 잠시 뒤 다시 가져올게요.").
 5. **Don't invent tokens.** Build only from the tokens in this file. Do not borrow KakaoTalk chat bubbles or other remembered Kakao patterns.
 
 ### Usage Boundaries
 | Element | Use for | Never use for |
 |---|---|---|
-| accent (`#fae100`) | The one primary action per screen (primary-action) | Background fills, body text, warnings, decoration |
+| accent (`#ffc21a`) | The one primary action per screen (primary-action) | Background fills, body text, warnings, decoration |
+| accent-soft (`#fff3c4`) | Highlight on a just-finished piece; selected category-filter | Large page backgrounds, text color |
 | kakao-login (`#fee500`) | A Kakao Login button only, if that integration is added | Anything else |
 | ink-strong (`#111111`) | Small tags (ink-tag), today-three-card titles | Large background surfaces |
 | display type (53.82px / 700) | Landing page hero only | In-app screens |
@@ -242,7 +244,8 @@ Only if Kakao sign-in is ever added. Values stay exactly as the official guide m
 The official guide explicitly says colors outside this regulation must not be applied and that another third-party login button must not be emphasized by omitting Kakao's button color.
 
 ### Core palette
-- **Accent — Lift Yellow** (`#fae100`): the one next action, the moment something gets lifted. Scarce by rule.
+- **Accent — Sunrise Yellow** (`#ffc21a`): Deoreonaem's own warm, bright yellow — energy for the one next action. Scarce by rule.
+- **Accent Soft** (`#fff3c4`): light tint of Sunrise Yellow for the moment a piece is finished and for the selected category.
 - **Ink Strong** (`#111111`): small dark tags and the strongest titles.
 - **Canvas** (`#ffffff`): the quiet, empty background — empty is a good state here.
 - **Foreground** (`#333333`): primary text and control color.
@@ -341,7 +344,7 @@ On 2026-09-29 all six probed corporate-home controls computed `transition: all 0
 - Focus: the browser's default ring only
 
 ### Primary Action Pill (primary-action)
-- Background: `#fae100` (accent; at most one per screen)
+- Background: `#ffc21a` (accent; at most one per screen)
 - Text: `#000000`
 - Border: 2px solid `#000000`
 - Radius: 16px
@@ -428,7 +431,7 @@ Keyboard focus was walked with real Tab presses on 2026-09-29. None of the six p
 ## Do's and Don'ts
 
 ### Do
-- Keep one accent (`#fae100`) action per screen.
+- Keep one accent (`#ffc21a`) action per screen.
 - Show at most three today-three-cards; fold everything else behind the fold-toggle.
 - Use Pretendard for every role, with the measured sizes.
 - Tell errors and missed items in calm copy instead of alarm colors.
@@ -466,7 +469,7 @@ Polite 해요-style Korean, one idea per sentence, at most two sentences per mes
 
 ## Agent Prompt Guide
 
-- "Build the primary-action pill: `#fae100` fill, 2px black border, 16px radius, 32px height, Pretendard 13px/700, label `쏟아내 주세요`. Only one per screen. It does not change on hover or press."
+- "Build the primary-action pill: `#ffc21a` fill, 2px black border, 16px radius, 32px height, Pretendard 13px/700, label `쏟아내 주세요`. Only one per screen. It does not change on hover or press."
 - "Build a today-three-card: transparent background, `#111111` title at 30px/700 Pretendard, `#333333` 14px description. Show at most three."
 - "Build the fold-toggle: `#eeeeee` fill, 24px radius, 40px height, Pretendard 12px/400, label `잠깐 접어둘게요`."
 - "Use Lucide (`lucide-react`) icons inside the 36px icon-button; keep surfaces flat with no shadows and instant state changes."
@@ -477,7 +480,7 @@ Polite 해요-style Korean, one idea per sentence, at most two sentences per mes
 ### Known Gaps
 
 - **No status colors.** The reference defines no error or success colors. None were invented; errors and missed items are communicated through copy (see Principles 4).
-- **Kakao yellow.** The accent `#fae100` is Kakao's marketing yellow, so screens may read as Kakao-affiliated. Kept by decision on 2026-10-16; revisit before launch.
+- **Accent contrast.** Text on Sunrise Yellow `#ffc21a` must be black (`#000000`); white text on it is not legible.
 
 ### Known inconsistencies
 
