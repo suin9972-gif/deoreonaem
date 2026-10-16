@@ -55,7 +55,17 @@ export default function Today({ result, saved, onChange, onRedump, onSave }: Pro
 
   return (
     <main className="flex min-h-dvh flex-col px-5 pb-8 pt-6">
-      <h1 className="text-heading text-ink">{titleFor(today.length)}</h1>
+      <h1 className="text-heading text-ink">
+        {today.length === 3 ? (
+          <>
+            오늘은 이 세 가지만
+            <br />
+            하면 돼요.
+          </>
+        ) : (
+          titleFor(today.length)
+        )}
+      </h1>
 
       <ol className="mt-8 flex flex-col gap-6">
         {today.map((t, i) => (
