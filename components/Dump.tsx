@@ -6,7 +6,7 @@ import PrimaryButton from "./PrimaryButton";
 type Props = {
   draft: string;
   onChange: (v: string) => void;
-  onSubmit: () => void;
+  onSubmit: () => Promise<void>;
 };
 
 const LOADING_LINES = ["정리하는 중이에요", "덜어냄이 정리를 도와줘요", "오늘 할 것부터 골라둘게요"];
@@ -19,13 +19,18 @@ export default function Dump({ draft, onChange, onSubmit }: Props) {
   useEffect(() => {
     if (!loading) return;
     const tick = setInterval(() => setLine((n) => (n + 1) % LOADING_LINES.length), 900);
-    // 흉내: AI 정리 — 기다리는 시간을 넣어 로딩이 보이게 (SETUP)
-    const done = setTimeout(onSubmit, 2000);
-    return () => {
-      clearInterval(tick);
-      clearTimeout(done);
-    };
-  }, [loading, onSubmit]);
+    return () => clearInterval(tick);
+  }, [loading]);
+
+  const submit = async () => {
+    setLine(0);
+    setLoading(true);
+    try {
+      await onSubmit();
+    } catch {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -54,7 +59,7 @@ export default function Dump({ draft, onChange, onSubmit }: Props) {
         aria-label="머릿속에 있는 것"
         className="mt-5 min-h-[50dvh] w-full flex-1 resize-none rounded-pill border border-line p-4 text-[16px] leading-[26px] text-fg outline-none placeholder:text-muted focus:border-fg"
       />
-      <PrimaryButton className="mt-5" disabled={empty} onClick={() => setLoading(true)}>
+      <PrimaryButton className="mt-5" disabled={empty} onClick={submit}>
         정리해 주세요
       </PrimaryButton>
     </main>

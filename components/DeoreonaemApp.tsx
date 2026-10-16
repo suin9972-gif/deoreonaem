@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useAppState } from "@/lib/store";
-import { organize } from "@/lib/organize";
+import { requestOrganize } from "@/lib/organize";
 import Intro from "./Intro";
 import Dump from "./Dump";
 import Today from "./Today";
@@ -17,7 +17,7 @@ export default function DeoreonaemApp() {
   const draft = state?.draft ?? "";
 
   const finishOrganize = useCallback(
-    () => update({ step: "today", result: organize(draft) }),
+    async () => update({ step: "today", result: await requestOrganize(draft) }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [draft],
   );
