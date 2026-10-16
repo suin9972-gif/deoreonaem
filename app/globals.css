@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* DESIGN.md 토큰 그대로 */
+@theme {
+  --color-accent: #ffc21a;
+  --color-accent-soft: #fff3c4;
+  --color-ink: #111111;
+  --color-canvas: #ffffff;
+  --color-fg: #333333;
+  --color-muted: #888888;
+  --color-surface: #eeeeee;
+  --color-surface-pressed: #dfdfdf;
+  --color-line: #dbdbdb;
+  --color-kakao: #fee500;
+
+  --font-sans: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+
+  --text-heading: 30px;
+  --text-heading--line-height: 40px;
+  --text-heading--font-weight: 700;
+  --text-title: 28px;
+  --text-title--line-height: 42px;
+  --text-title--font-weight: 700;
+  --text-nav: 17px;
+  --text-nav--line-height: 27px;
+  --text-body: 14px;
+  --text-body--line-height: 21px;
+  --text-readable: 14px;
+  --text-readable--line-height: 24.92px;
+  --text-readable--letter-spacing: -0.2px;
+  --text-caption: 12px;
+  --text-caption--line-height: 18px;
+  --text-caption--letter-spacing: -0.2px;
+
+  --radius-login: 12px;
+  --radius-pill: 16px;
+  --radius-icon: 18px;
+  --radius-fold: 24px;
+  --radius-filter: 30px;
+}
+
+* {
+  /* 평평한 화면, 애니메이션 없음 (DESIGN.md) */
+  transition: all 0s;
+}
+
+html,
+body {
+  background: var(--color-canvas);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
