@@ -7,6 +7,7 @@ export type Task = {
   text: string;
   category: Category;
   today: boolean;
+  later?: boolean; // "나중에 할게요"로 내린 일 — 빈자리 채우기에 다시 쓰지 않음
 };
 
 export type Organized = {
@@ -65,5 +66,33 @@ export function organize(raw: string): Organized {
   return { today: sorted.slice(0, count), folded: sorted.slice(count) };
 }
 
+/** 접어둔 일 중 하나와 자리를 바꿈 */
+export function swap(r: Organized, index: number, foldedId: string): Organized {
+  const pick = r.folded.find((t) => t.id === foldedId);
+  if (!pick) return r;
+  const out = r.today[index];
+  const today = r.today.map((t, i) => (i === index ? { ...pick, later: false } : t));
+  const folded = [out, ...r.folded.filter((t) => t.id !== foldedId)];
+  return { today, folded };
+}
+
+/** 나중으로 내리고, 빈자리는 다음 할 일로 채움. 채운 일을 함께 돌려줌 */
+export function postpone(r: Organized, index: number): { result: Organized; filled: Task | null } {
+  const out = { ...r.today[index], later: true };
+  const next = r.folded.find((t) => !t.later) ?? null;
+  const today = next
+    ? r.today.map((t, i) => (i === index ? next : t))
+    : r.today.filter((_, i) => i !== index);
+  const folded = [...r.folded.filter((t) => t.id !== next?.id), out];
+  return { result: { today, folded }, filled: next };
+}
+
 export const titleFor = (n: number) =>
   n === 3 ? "오늘은 이 세 가지만 하면 돼요." : "오늘은 이것만 하면 돼요.";
+
+/** 받침에 따라 을/를 */
+export function objectParticle(word: string): string {
+  const code = word.charCodeAt(word.length - 1) - 0xac00;
+  if (code < 0 || code > 11171) return "를";
+  return code % 28 === 0 ? "를" : "을";
+}

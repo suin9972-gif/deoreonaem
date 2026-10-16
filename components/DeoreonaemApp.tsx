@@ -26,7 +26,10 @@ export default function DeoreonaemApp() {
         <Dump draft={state.draft} onChange={(d) => update({ draft: d })} onSubmit={finishOrganize} />
       )}
       {state.step === "today" && state.result && (
-        <Today result={state.result} onRedump={() => update({ step: "dump" })} onSave={() => {}} />
+        <Today
+          result={state.result}
+          onChange={(result) => update({ result })}
+          onRedump={() => update({ step: "dump" })} onSave={() => {}} />
       )}
     </div>
   );
