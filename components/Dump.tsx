@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import PrimaryButton from "./PrimaryButton";
 
 type Props = {
@@ -6,8 +9,37 @@ type Props = {
   onSubmit: () => void;
 };
 
+const LOADING_LINES = ["정리하는 중이에요", "덜어냄이 정리를 도와줘요", "오늘 할 것부터 골라둘게요"];
+
 export default function Dump({ draft, onChange, onSubmit }: Props) {
+  const [loading, setLoading] = useState(false);
+  const [line, setLine] = useState(0);
   const empty = draft.trim() === "";
+
+  useEffect(() => {
+    if (!loading) return;
+    const tick = setInterval(() => setLine((n) => (n + 1) % LOADING_LINES.length), 900);
+    // 흉내: AI 정리 — 기다리는 시간을 넣어 로딩이 보이게 (SETUP)
+    const done = setTimeout(onSubmit, 2000);
+    return () => {
+      clearInterval(tick);
+      clearTimeout(done);
+    };
+  }, [loading, onSubmit]);
+
+  if (loading) {
+    return (
+      <main className="flex min-h-dvh flex-col px-5 pb-8 pt-6" aria-busy="true">
+        <p className="text-title text-ink">{LOADING_LINES[line]}</p>
+        <div className="mt-8 flex flex-col gap-5">
+          {[88, 74, 60].map((w) => (
+            <div key={w} className="h-8 rounded-pill bg-surface" style={{ width: `${w}%` }} />
+          ))}
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="flex min-h-dvh flex-col px-5 pb-8 pt-6">
       <h1 className="text-title text-ink">
@@ -22,7 +54,7 @@ export default function Dump({ draft, onChange, onSubmit }: Props) {
         aria-label="머릿속에 있는 것"
         className="mt-5 min-h-[50dvh] w-full flex-1 resize-none rounded-pill border border-line p-4 text-[16px] leading-[26px] text-fg outline-none placeholder:text-muted focus:border-fg"
       />
-      <PrimaryButton className="mt-5" disabled={empty} onClick={onSubmit}>
+      <PrimaryButton className="mt-5" disabled={empty} onClick={() => setLoading(true)}>
         정리해 주세요
       </PrimaryButton>
     </main>
