@@ -421,11 +421,12 @@
           <div class="board-item"><span class="flow-id">F3</span><strong>캘린더 모으기</strong><p>"일정도 같이 보고 싶어"</p></div>
           <div class="board-item"><span class="flow-id">F4</span><strong>떠오른 거 넣어두기</strong><p>"아 맞다, 그것도 해야지"</p></div>
         </div>
-        <div class="board-col"><h3>기획 완료 <span class="count">2</span></h3>
-          <a class="board-item" href="#f1"><span class="flow-id">F1 · 첫 방문</span><strong>처음 쏟아내기</strong><p>"머릿속 좀 비우고 싶다"</p></a>
+        <div class="board-col"><h3>기획 완료 <span class="count">1</span></h3>
           <a class="board-item" href="#f2"><span class="flow-id">F2 · 다시 오기</span><strong>오늘 하나씩 덜기</strong><p>"오늘 뭐 하면 되지?"</p></a>
         </div>
-        <div class="board-col"><h3>UI 구현 <span class="count">0</span></h3></div>
+        <div class="board-col"><h3>UI 구현 <span class="count">1</span></h3>
+          <a class="board-item" href="#f1"><span class="flow-id">F1 · 첫 방문</span><strong>처음 쏟아내기</strong><p>"머릿속 좀 비우고 싶다"</p></a>
+        </div>
         <div class="board-col is-done"><h3>기능 구현 <span class="count">0</span></h3></div>
       </div>
       <p class="source">기능 커버리지: 핵심 기능 6개 → 모두 F1~F4에 들어감. F3은 연결 부담이 커서 첫 방문에서 떼어냄. F4는 "하는 도중에 흐트러진다"를 맡음(기준: 진입 동기가 "하다가 떠오름"으로 다름).</p>
@@ -460,7 +461,7 @@
     </section>
 
     <section class="section" id="f1">
-      <div class="section-label">F1 · 기획 완료</div>
+      <div class="section-label">F1 · UI 구현</div>
       <h2>처음 쏟아내기</h2>
       <div class="callout">
         <p class="big">쏟아낸 게 정리돼 "오늘은 이 세 가지만 하면 돼요"를 받음</p>
@@ -562,9 +563,9 @@
       <div class="table-wrap"><table>
         <thead><tr><th>화면</th><th>빈</th><th>로딩</th><th>오류</th></tr></thead>
         <tbody>
-          <tr><th>② 쏟아내기</th><td>예시만 흐리게 보이고 [정리해 주세요]는 꺼둠</td><td>세 줄 자리가 회색으로 깔리고 문구가 바뀌어 가며 나옴 — "정리하는 중이에요" → "덜어냄이 정리를 도와줘요" … (임시)</td><td>"정리하지 못했어요. 적은 건 그대로 있어요." (임시) + [다시 정리하기]</td></tr>
-          <tr><th>③ 오늘 세 가지</th><td>할 일을 못 찾음 — "오늘은 일정이 없어요! 오늘 완전히 머리를 비워봐요" + [다시 쏟아내기] (임시) / 접어둔 게 없으면 접기 버튼을 숨김</td><td>② 로딩 참고</td><td>② 오류 참고</td></tr>
-          <tr><th>④ 저장 시트</th><td>—</td><td>누른 로그인 버튼에 진행 표시</td><td>"로그인하지 못했어요. 세 가지는 그대로 있어요." (임시)</td></tr>
+          <tr><th>② 쏟아내기</th><td>예시만 흐리게 보이고 [정리해 주세요]는 꺼둠</td><td>세 줄 자리가 회색으로 깔리고 문구가 바뀌어 가며 나옴 — "정리하는 중이에요" → "덜어냄이 정리를 도와줘요" → "오늘 할 것부터 골라둘게요" (임시)</td><td>"정리하지 못했어요. 적은 건 그대로 있어요." (임시) + [다시 정리하기]</td></tr>
+          <tr><th>③ 오늘 세 가지</th><td>할 일을 못 찾음 — "오늘은 일정이 없어요! 오늘 완전히 머리를 비워봐요" + [다시 쏟아내기] (임시) / 접어둔 게 없으면 접기 버튼을 숨김, <code>⋯</code> → "다른 걸로 바꾸기"에는 "접어둔 할 일이 없어요." (임시)</td><td>② 로딩 참고</td><td>② 오류 참고</td></tr>
+          <tr><th>④ 저장 시트</th><td>—</td><td>누른 로그인 버튼 글자가 "잠시만요…"로 바뀜 (임시)</td><td>"로그인하지 못했어요. 세 가지는 그대로 있어요." (임시)</td></tr>
         </tbody>
       </table></div>
 
@@ -603,8 +604,26 @@
       </div>
       <p class="source">기본값으로 둔 것: 세 가지는 우선순위 순 번호, 분류는 작게 / 셋보다 적으면 있는 만큼만 / 입력은 글자만 / 알림 거절 시 다시 묻지 않음 / 아무것도 안 적으면 [정리해 주세요] 꺼둠</p>
 
+      <div class="sub">구현 점검</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>단계</th><th>화면 있음</th><th>실제 동작</th><th>근거</th></tr></thead>
+        <tbody>
+          <tr><th>① 첫 화면</th><td>✓</td><td>✓ [쏟아내기 시작] → 쏟아내기</td><td>components/Intro.tsx</td></tr>
+          <tr><th>② 쏟아내기</th><td>✓</td><td>✗ 쓴 글은 이 브라우저에만 저장. 정리는 낱말 규칙 흉내라 정리 오류 화면은 아직 없음</td><td>components/Dump.tsx, lib/store.ts</td></tr>
+          <tr><th>③ 오늘 세 가지</th><td>✓</td><td>✗ 분류·우선순위가 낱말 규칙 흉내(AI 아님). 바꾸기·나중에·접기는 동작</td><td>components/Today.tsx, components/TaskMenu.tsx, lib/organize.ts</td></tr>
+          <tr><th>④ 저장 시트</th><td>✓</td><td>✗ 카카오·Google 로그인 흉내(누르면 통과). [나중에 할게요] 뒤 F2 오늘 화면이 없어 세 가지 화면에 머묾</td><td>components/SaveSheet.tsx, components/DeoreonaemApp.tsx</td></tr>
+          <tr><th>⑤ 아침 알림 시트</th><td>✓</td><td>✗ 알림 권한만 실제로 묻고 아침 알림은 보내지 않음. 뒤에는 세 가지 화면에 머묾</td><td>components/NotifySheet.tsx</td></tr>
+        </tbody>
+      </table></div>
+      <p class="source">2026-10-16 · 코드를 읽고 채움</p>
+
       <div class="sub">변경 기록</div>
-      <ul class="refs"><li>2026-10-16 기획 완료</li></ul>
+      <ul class="refs">
+        <li>2026-10-16 기획 완료</li>
+        <li>2026-10-16 UI 구현 — 01-f1-first-visit 묶음으로 화면 5개를 만듦 (AI 정리·로그인·저장은 흉내)</li>
+        <li>2026-10-16 오늘 세 가지: 셋보다 적을 때도 제목 "오늘은 이것만 하면 돼요." / <code>⋯</code> 바꾸기 메뉴 문구("어떤 걸로 바꿀까요?", "접어둔 할 일이 없어요.")와 "나중에 할게요"로 내린 일은 빈자리 채우기에 다시 쓰지 않기 / "○○를 넣어뒀어요"는 목록 아래에 잠깐 / 로그인 뒤 "저장해 뒀어요." — 만들면서 정함 (LOG)</li>
+        <li>2026-10-16 쏟아내기 로딩 문구에 "오늘 할 것부터 골라둘게요" 추가, 저장 시트 로그인 중 "잠시만요…" — 만들면서 정함 (LOG)</li>
+      </ul>
     </section>
 
     <section class="section" id="f2">
