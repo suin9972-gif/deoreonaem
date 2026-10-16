@@ -8,12 +8,13 @@ import TaskMenu from "./TaskMenu";
 
 type Props = {
   result: Organized;
+  saved: boolean;
   onChange: (r: Organized) => void;
   onRedump: () => void;
   onSave: () => void;
 };
 
-export default function Today({ result, onChange, onRedump, onSave }: Props) {
+export default function Today({ result, saved, onChange, onRedump, onSave }: Props) {
   const [open, setOpen] = useState(false);
   const [menuAt, setMenuAt] = useState<number | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -126,9 +127,13 @@ export default function Today({ result, onChange, onRedump, onSave }: Props) {
       )}
 
       <div className="flex-1" />
-      <PrimaryButton className="mt-8" onClick={onSave}>
-        저장해 둘게요
-      </PrimaryButton>
+      {saved ? (
+        <p className="mt-8 text-center text-readable text-muted">저장해 뒀어요.</p>
+      ) : (
+        <PrimaryButton className="mt-8" onClick={onSave}>
+          저장해 둘게요
+        </PrimaryButton>
+      )}
     </main>
   );
 }

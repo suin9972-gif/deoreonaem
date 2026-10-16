@@ -12,9 +12,11 @@ export type AppState = {
   step: Step;
   draft: string;
   result: Organized | null;
+  account: "kakao" | "google" | null; // 흉내: 로그인 (SETUP)
+  notifyAsked: boolean; // 알림은 한 번만 묻고, 거절해도 다시 묻지 않음
 };
 
-const initial: AppState = { step: "intro", draft: "", result: null };
+const initial: AppState = { step: "intro", draft: "", result: null, account: null, notifyAsked: false };
 
 function load(): AppState {
   try {
